@@ -84,7 +84,7 @@ module.exports = function (/* ctx */) {
       iconSet: 'material-icons', // Quasar icon set
       lang: 'en-us', // Quasar language pack
       config: {},
-      all:true, //incluses everything ;for dev only
+      all: true,
 
       // Possible values for "importStrategy":
       // * 'auto' - (DEFAULT) Auto-import needed Quasar components & directives
@@ -189,7 +189,10 @@ module.exports = function (/* ctx */) {
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
       nodeIntegration: true,
 
-   
+      extendWebpack (/* cfg */) {
+        // do something with Electron main process Webpack cfg
+        // chainWebpack also available besides this extendWebpack
+      }
     }
   }
 }
