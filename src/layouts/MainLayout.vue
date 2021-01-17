@@ -2,19 +2,24 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <!-- <q-btn
+        <q-btn
+          v-if="$route.fullPath.includes('/chat')"
+          v-go-back.single
+          icon="arrow_back"
           flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen" /> -->
-
+          dense/>
         <q-toolbar-title class="text-center">
                    {{ title }}
         </q-toolbar-title>
 
         <div></div>
+         <q-btn
+         to="/auth"
+         class="absolute-right q-pr-sm"
+          icon="account_circle"
+          no-caps
+          flat
+          dense/>
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -30,16 +35,17 @@ export default {
   },
   computed: {
     title () {
-      console.log(this.$router)
-      const currentPath = this.$router.fullPath
+      console.log(this.$route)
+      let currentPath = this.$route.fullPath
       if (currentPath === '/') return 'Lolipop'
       else if (currentPath === '/chat') return 'Chat'
       else if (currentPath === '/auth') return 'login'
-      return this.title
     }
   },
   components: {},
   data () {
+    return {
+    }
   }
 }
 </script>
