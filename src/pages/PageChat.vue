@@ -42,26 +42,15 @@
   </q-page>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   data() {
     return {
       newMessage: '',
-      messages: [
-        {
-          text: 'hi',
-          from: 'me'
-        },
-          {
-          text: 'hello',
-          from: 'them'
-        },
-          {
-          text: 'fine',
-          from: 'me'
-        },
-      ]
     }
+  },
+  computed:{
+    ...mapState('store' ,['messages'])
   },
   methods:{
     ...mapActions('store',['firebaseGetMessages']),

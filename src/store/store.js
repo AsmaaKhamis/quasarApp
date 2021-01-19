@@ -125,10 +125,7 @@ const mutations ={
              commit('addMessages', {
                  messageId,
                  messageDetails
-
              })
-             console.log('maeeagesId:' ,messageId)
-             console.log('maeeagesDetails:' ,messageDetails)
          })
      }
 
