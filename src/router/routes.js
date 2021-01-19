@@ -4,7 +4,7 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/PageUsers.vue') },
-      { path: '/chat', component: () => import('pages/PageChat.vue') },
+      { path: '/chat/:otherUserId', component: () => import('pages/PageChat.vue') },
       { path: '/auth', component: () => import('pages/PageAuth.vue') }
     ]
   },
@@ -17,3 +17,4 @@ const routes = [
   }
 ]
 export default routes
+ 

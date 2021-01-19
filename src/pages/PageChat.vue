@@ -1,8 +1,8 @@
 <template>
   <q-page class="flex column">
-    <!-- <q-banner class="bg-grey-3 text-center">
+    <q-banner class="bg-grey-3 text-center">
       User if offline
-    </q-banner> -->
+    </q-banner> 
     <div class="q-pa-md column col justify-end">
        <q-chat-message
        v-for="message in messages"
@@ -42,6 +42,7 @@
   </q-page>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -63,13 +64,16 @@ export default {
     }
   },
   methods:{
+    ...mapActions('store',['firebaseGetMessages']),
     sendMessage() {
-      debugger
       this.messages.push({
         text:this.newMessage,
         from: 'me'
       })
     }
+  },
+  mounted(){
+      this.firebaseGetMessages(this.$route.params.otherUserId)   
   }
 }
 </script>

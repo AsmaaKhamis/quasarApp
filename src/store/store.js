@@ -4,7 +4,8 @@ import {firebaseAuth, firebaseDb} from 'boot/firebase'
 
 const state ={
     userDetails:{},
-    users:{}
+    users:{},
+    messages:{}
 
 }
 const mutations ={
@@ -12,8 +13,14 @@ const mutations ={
         state.userDetails = payload
     },
     addUser(state,payload){
-        console.log('payload :' ,payload)
         Vue.set(state.users,payload.userId,payload.userDetails)
+    },
+    updateUser(state ,payload){
+        Object.assign(state.users[payload.userId],payload.userDetails)
+
+    },
+    addMessages(state,payload){
+        Vue.set(state.messages,payload.messageId,payload.messageDetails)
     }
 
 }
@@ -69,14 +76,14 @@ const mutations ={
                       online:true
                   }
               })
-               dispatch('firebaseGetUsers')
-            // if(this.$route.path !== '/') this.$router.push('/')
+            dispatch('firebaseGetUsers')
+            this.$router.push('/')
             }
             else{
                 //the user is logged out
-                dispatch('firebaseUpdateUser',{
-                    userId:state.userDetails.userId,
-                    updates:{
+                        dispatch('firebaseUpdateUser',{
+                        userId:state.userDetails.userId,
+                        updates:{
                         online:false
                     }
                 })
@@ -86,8 +93,9 @@ const mutations ={
           });
      },
      firebaseUpdateUser({},payload){
+         if(payload.userId){
          firebaseDb.ref('users/' + payload.userId).update(payload.updates)
-
+         }
      },
      
      firebaseGetUsers({commit}){
@@ -99,11 +107,44 @@ const mutations ={
                    userDetails
                })
            })
+           firebaseDb.ref('users').on('child_changed' ,snapshot => {
+            let userDetails = snapshot.val()
+            let userId =snapshot.key
+            commit('updateUser' , {
+                userId,
+                userDetails
+            })
+        })
 
+     },
+     firebaseGetMessages({commit,state},otherUserId){
+        let userId = state.userDetails.userId
+         firebaseDb.ref('chats/' +userId+'/' +otherUserId).on('child_added',snapshot => {
+            let messageDetails = snapshot.val()
+             let messageId = snapshot.key
+             commit('addMessages', {
+                 messageId,
+                 messageDetails
+
+             })
+             console.log('maeeagesId:' ,messageId)
+             console.log('maeeagesDetails:' ,messageDetails)
+         })
      }
 
  }
  const getters ={
+     users: state => {
+         //making the current user unvisible in the list
+         let usersFiltered = {}
+         Object.keys(state.users).forEach(key => {
+              if(key !== state.userDetails.userId){
+                  usersFiltered[key] =state.users[key]
+              }
+            
+         })
+         return usersFiltered
+     }
 
  } 
   export default {

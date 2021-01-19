@@ -33,7 +33,7 @@ export default {
     }
   },
   components: {
-    'login-register' : require('components/loginRegister.vue').default
+    'login-register' : require('components/loginregister.vue').default
   }
 }
 </script>
