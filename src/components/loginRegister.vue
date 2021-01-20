@@ -1,18 +1,27 @@
 <template>
-<q-form @submit="submitForm">
+<q-form 
+@reset="onReset"
+@submit="submitForm">
        <q-input 
        v-if="tab == 'register'"
        filled 
        v-model="formData.name" 
        class="q-mb-md"
-       label="Name" />
+       label="Name" 
+       lazy-rules
+       :rules="[ val => val && val.length > 0 || 'Please enter your name']"
+       />
           <q-input 
+       lazy-rules
+       :rules="[ val => val && val.length > 0 || 'Please enter your email']"
        filled 
        v-model="formData.email" 
            class="q-mb-md"
        type="email"
        label="Email" />
           <q-input 
+       lazy-rules
+       :rules="[ val => val && val.length > 0 || 'Please enter your password']"
        filled 
        v-model="formData.password"
            class="q-mb-md"
@@ -28,7 +37,10 @@
             unelevated 
             :icon="tab === 'login' ? 'face' : 'person_add_alt_1'" 
             :label="tab" />
+             <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+
        </div>
+
 
 </q-form>
 </template>
@@ -43,7 +55,7 @@ export default {
                 name: '',
                 email:'',
                 password: ''
-            }
+            },
         
         }
     },
@@ -56,7 +68,11 @@ export default {
             else{
                 this.registerUser(this.formData)
             }
-        }
+        },
+        onReset () {
+     this.formData = ''
+     this.accept= false
+    }
     }
 
 

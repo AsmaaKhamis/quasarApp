@@ -11,6 +11,7 @@
         >
           <q-tab name="login" label="Login" />
           <q-tab name="register" label="Register" />
+
         </q-tabs>
 
         <q-tab-panels v-model="tab" animated class=" text-white">
