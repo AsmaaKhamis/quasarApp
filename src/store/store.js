@@ -138,6 +138,15 @@ const mutations ={
              messagesRef.off('child_added')
              commit('clearMessages')
          }
+     },
+     //send messages to the database
+     firebaseSendMessage({},payload){
+         firebaseDb.ref('chats/' + state.userDetails.userId + '/' +
+         payload.otherUserId).push(payload.message)
+         
+         payload.message.from ='them'
+         firebaseDb.ref('chats/' + payload.otherUserId + '/' +
+         state.userDetails.userId ).push(payload.message)
      }
 
  }

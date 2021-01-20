@@ -23,10 +23,11 @@
           dense/>
 
            <q-btn
+           
            v-else
            @click="logoutUser" 
            class="absolute-right q-pr-sm"
-           icon="login"
+           icon="directions_run"
            no-caps
            flat
             dense>
@@ -38,6 +39,12 @@
           You Are Logged out {{userDetails.name}}
         </q-banner>
       </q-popup-proxy>
+       <q-tooltip
+          transition-show="rotate"
+          transition-hide="rotate"
+        >
+          LogOut
+        </q-tooltip>
            </q-btn>
       </q-toolbar>
     </q-header>
@@ -48,7 +55,9 @@
 </template>
 <script>
 import { mapState ,mapActions } from 'vuex'
+import mixinOtherUserDetails from 'src/mixins/mixin-other-user-details.js'
 export default {
+  mixins: [mixinOtherUserDetails],
   methods: {
     ...mapActions('store' ,['logoutUser'])
 
@@ -60,7 +69,8 @@ export default {
       console.log(this.$route)
       let currentPath = this.$route.fullPath
       if (currentPath === '/') return 'Lolipop'
-      else if (currentPath === '/chat') return 'Chat'
+      //  else if (currentPath === '/chat') return 'Chat'
+      else if (currentPath.includes('/chat')) return this.otherUserDetails.name
       else if (currentPath === '/auth') return 'login'
     }
   },
